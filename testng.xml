@@ -4,11 +4,12 @@
 <listeners>
         <listener class-name="io.restapiframework.listeners.TestListener" />
     </listeners>
-  <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test" preserve-order="true" >
     <classes>
       <!--<class name="io.restapiframework.tests.BaseTests"/>-->
       <class name="io.restapiframework.tests.GetTests"/>
       <class name="io.restapiframework.tests.PostTest"/>
+      <class name="io.restapiframework.tests.UpdateTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

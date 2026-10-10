@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import extentreport.ExtentReportConfig;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import pojo.EmployeePojo;
 import util.FakerUtil;
@@ -21,7 +22,7 @@ public class PostTest extends BaseTests {
 		EmployeePojo employeePojo=EmployeePojo.builder().setEmpid(FakerUtil.getEmpid()).setJob(FakerUtil.getJob()).setName(FakerUtil.getName()).build();
 		System.out.println(employeePojo);
 		ExtendLogger.info("pojo object created "+employeePojo.toString());
-		Response response=ApiBuilderUtil.requestCallBuilder().body(employeePojo).post("/employees");
+		Response response=ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employeePojo).post("/employees");
 		ExtendLogger.logResponse(response.prettyPrint());
 		
 		Response response1=ApiBuilderUtil.requestCallBuilder().get("/employees");

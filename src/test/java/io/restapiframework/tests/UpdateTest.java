@@ -31,13 +31,14 @@ public class UpdateTest extends BaseTests {
 		int randomInt = ThreadLocalRandom.current().nextInt(0, responseList.size());
 		Map<String, Object> randomEmployee = responseList.get(randomInt);
 		String targetId = String.valueOf(randomEmployee.get("id"));
+		int empId=Integer.valueOf(String.valueOf(randomEmployee.get("empid")));
 //		System.out.println("target id " + targetId);
 //		System.out.println("before job update " + randomEmployee);
 		ExtendLogger.info("target id " + targetId);
 		ExtendLogger.info("before job update " + randomEmployee);
 		String targetJob=FakerUtil.getJob();
 		EmployeePojo employee = EmployeePojo.builder().setJob(targetJob)
-				.setEmpid((Integer) randomEmployee.get("empid")).setName((String) randomEmployee.get("name")).build();
+				.setEmpid(empId).setName((String) randomEmployee.get("name")).build();
 //		System.out.println(employee);
 		ExtendLogger.info("employee updated "+employee);
 		Response updateRequest = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON)

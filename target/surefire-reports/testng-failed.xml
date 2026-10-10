@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Surefire suite]" verbose="0">
+  <test thread-count="5" name="Surefire test(failed)" verbose="0">
+    <classes>
+      <class name="io.restapiframework.tests.GetTests">
+        <methods>
+          <include name="initateReport"/>
+          <include name="getEmployee" invocation-numbers="0"/>
+          <include name="getEmployees"/>
+          <include name="tearDownReport"/>
+          <include name="iniateTest"/>
+          <include name="testTearDown"/>
+        </methods>
+      </class> <!-- io.restapiframework.tests.GetTests -->
+      <class name="io.restapiframework.tests.PostTest">
+        <methods>
+          <include name="initateReport"/>
+          <include name="iniateTest"/>
+          <include name="tearDownReport"/>
+          <include name="testTearDown"/>
+          <include name="createEmployee"/>
+        </methods>
+      </class> <!-- io.restapiframework.tests.PostTest -->
+    </classes>
+  </test> <!-- Surefire test(failed) -->
+</suite> <!-- Failed suite [Surefire suite] -->

@@ -6,6 +6,7 @@
 
 # Maven output
 /target/
+/test-output/
 
 # Reports and logs
 /spark-reports/

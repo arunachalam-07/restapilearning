@@ -11,4 +11,5 @@
 # Reports and logs
 /spark-reports/
 *.log
+*.html
 response.txt

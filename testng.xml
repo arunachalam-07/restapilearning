@@ -10,6 +10,7 @@
       <class name="io.restapiframework.tests.GetTests"/>
       <class name="io.restapiframework.tests.PostTest"/>
       <class name="io.restapiframework.tests.UpdateTest"/>
+      <class name="io.restapiframework.tests.PatchTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

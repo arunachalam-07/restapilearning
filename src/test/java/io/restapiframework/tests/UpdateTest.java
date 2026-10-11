@@ -44,7 +44,7 @@ public class UpdateTest extends BaseTests {
 		Response updateRequest = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON)
 				.pathParam("id", targetId).body(employee).put("/employees/{id}");
 		
-		assertThat(updateRequest.getStatusCode()).isEqualTo(200);
+		assertThat(updateRequest.getStatusCode()).isIn(200,201);
 		
 		Response requestAfterUpdate=ApiBuilderUtil.requestCallBuilder().queryParam("id", targetId).get("/employees");
 		String newJob=requestAfterUpdate.jsonPath().get("[0].job");

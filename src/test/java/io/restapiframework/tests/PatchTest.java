@@ -20,7 +20,7 @@ import util.FakerUtil;
 public class PatchTest extends BaseTests {
 
 	@Test
-	public void updateEmployeename() {
+	public void patchEmployeename() {
 		
 		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");
 		List<Map<String, Object>> responseList = response.jsonPath().get("$");
@@ -53,7 +53,7 @@ public class PatchTest extends BaseTests {
 		Response employeeCheck = ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId)
 				.get("/employees");
 //		System.out.println("employee fetched -->" + employeeCheck);
-		ExtendLogger.info("employee fetched -->" + employeeCheck);
+		ExtendLogger.info("employee fetched -->" + employeeCheck.prettyPrint());
 		assertThat(employeeCheck.getStatusCode()).isIn(200,201)
 				.as("update employee not came as expected after fetching");
 		assertThat(((List<String>) employeeCheck.jsonPath().get("name")).get(0))
@@ -61,7 +61,7 @@ public class PatchTest extends BaseTests {
 	}
 
 	@Test
-	public void updateEmployeeJob() {
+	public void patchEmployeeJob() {
 		
 		
 		

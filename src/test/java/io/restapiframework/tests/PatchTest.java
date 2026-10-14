@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.Test;
 
@@ -24,9 +25,11 @@ public class PatchTest extends BaseTests {
 		
 		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");
 		List<Map<String, Object>> responseList = response.jsonPath().get("$");
-		
-		String targetId = ((List<String>) response.jsonPath().get("id")).get(0);
-		int targetEmployeeId = ((List<Integer>) response.jsonPath().get("empid")).get(0);
+		int randomNumber=ThreadLocalRandom.current().nextInt(0, responseList.size());
+		String targetId =(String)responseList.get(randomNumber).get("id");
+				//((List<String>) response.jsonPath().get("id")).get(0);
+		int targetEmployeeId = (int)responseList.get(randomNumber).get("empid");
+//				((List<Integer>) response.jsonPath().get("empid")).get(0);
 //		System.out.println("target employee id --> " + targetId);
 //		System.out.println("target Employee --> " + response.prettyPrint());
 		
@@ -67,10 +70,12 @@ public class PatchTest extends BaseTests {
 		
 		
 		Response response=ApiBuilderUtil.requestCallBuilder().get("/employees");
-		String id=((List<String>)response.jsonPath().get("id")).get(0);
-		String currentJob=((List<String>)response.jsonPath().get("job")).get(0);
+		List<Map<String, Object>> responseList = response.jsonPath().get("$");
+		int randomNumber=ThreadLocalRandom.current().nextInt(0, responseList.size());
+		String id=(String)responseList.get(randomNumber).get("id");
+		String currentJob=(String)responseList.get(randomNumber).get("job");
 //		System.out.println("Current id and current job "+id+" "+currentJob);
-		int targetEmployeeId = ((List<Integer>) response.jsonPath().get("empid")).get(0);
+		int targetEmployeeId = (int)responseList.get(randomNumber).get("empid");
 		ExtendLogger.info("Current id and current job "+id+" "+currentJob);
 		String updatedJob=FakerUtil.getJob();
 		EmployeePojo employee=EmployeePojo.builder().setJob(updatedJob).build();

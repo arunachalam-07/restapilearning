@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.response.Response;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class DeleteTests extends BaseTests {
 	
@@ -31,14 +33,16 @@ public class DeleteTests extends BaseTests {
 		Response deleteResponse=ApiBuilderUtil.requestCallBuilder().pathParam("id", targetId).delete("/employees/{id}");
 		System.out.println(deleteResponse.statusCode());
 		System.out.println(deleteResponse.prettyPrint());
+		assertThat(deleteResponse.getStatusCode()).isIn(200,201);
 		ExtendLogger.info("delete status code "+deleteResponse.statusCode());
 		ExtendLogger.info("delete response code "+deleteResponse.prettyPrint());
 
 		
-		Response getResponse=ApiBuilderUtil.requestCallBuilder().queryParam("empid", empId).get("/employees");
+		Response getResponse=ApiBuilderUtil.requestCallBuilder().pathParam("id", targetId).get("/employees/{id}");
 //		System.out.println("status code for deleted employee in get "+getResponse.statusCode());
+		assertThat(getResponse.getStatusCode()).isEqualTo(404);
 		ExtendLogger.info("status code for deleted employee in get "+getResponse.statusCode());
-		System.out.println(((List<Object>)getResponse.jsonPath().get("$")).size());
+//		System.out.println(((List<Object>)getResponse.jsonPath().get("$")).size());
 //		System.out.println("response after delete "+getResponse.prettyPrint());
 		ExtendLogger.info("response after delete "+getResponse.prettyPrint());
 		

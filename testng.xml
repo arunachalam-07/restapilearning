@@ -11,6 +11,7 @@
       <class name="io.restapiframework.tests.PostTest"/>
       <class name="io.restapiframework.tests.UpdateTest"/>
       <class name="io.restapiframework.tests.PatchTest"/>
+      <class name="io.restapiframework.tests.DeleteTests"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

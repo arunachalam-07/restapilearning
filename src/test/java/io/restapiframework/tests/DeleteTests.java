@@ -35,7 +35,8 @@ public class DeleteTests extends BaseTests {
 		System.out.println(deleteResponse.prettyPrint());
 		assertThat(deleteResponse.getStatusCode()).isIn(200,201);
 		ExtendLogger.info("delete status code "+deleteResponse.statusCode());
-		ExtendLogger.info("delete response code "+deleteResponse.prettyPrint());
+		ExtendLogger.info("delete response code ");
+		ExtendLogger.logResponse(deleteResponse.prettyPrint());
 
 		
 		Response getResponse=ApiBuilderUtil.requestCallBuilder().pathParam("id", targetId).get("/employees/{id}");
@@ -44,7 +45,8 @@ public class DeleteTests extends BaseTests {
 		ExtendLogger.info("status code for deleted employee in get "+getResponse.statusCode());
 //		System.out.println(((List<Object>)getResponse.jsonPath().get("$")).size());
 //		System.out.println("response after delete "+getResponse.prettyPrint());
-		ExtendLogger.info("response after delete "+getResponse.prettyPrint());
+		ExtendLogger.info("response after delete ");
+		ExtendLogger.logResponse(getResponse.prettyPrint());
 		
 	}
 

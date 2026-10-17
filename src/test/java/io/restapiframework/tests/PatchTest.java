@@ -34,7 +34,7 @@ public class PatchTest extends BaseTests {
 //		System.out.println("target Employee --> " + response.prettyPrint());
 		
 		ExtendLogger.info("target employee id --> " + targetId);
-		ExtendLogger.info("target Employee --> " + response.prettyPrint());
+		ExtendLogger.logResponse(response.prettyPrint());
 		
 		assertThat(response.getStatusCode()).isIn(200,201).as("expected status code didnt come for get ");
 		// update name in Employee pojo
@@ -48,7 +48,8 @@ public class PatchTest extends BaseTests {
 		Response updateEmployee = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employee)
 				.pathParam("id", targetId).patch("/employees/{id}");
 //		System.out.println("updated employee response --> " + updateEmployee.prettyPrint());
-		ExtendLogger.info("updated employee response --> " + updateEmployee.prettyPrint());
+		ExtendLogger.info("updated employee response below");
+		ExtendLogger.logResponse( updateEmployee.prettyPrint());
 		assertThat(updateEmployee.getStatusCode()).isIn(200,201)
 				.as("expected status code didnt come for patch ");
 
@@ -56,7 +57,8 @@ public class PatchTest extends BaseTests {
 		Response employeeCheck = ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId)
 				.get("/employees");
 //		System.out.println("employee fetched -->" + employeeCheck);
-		ExtendLogger.info("employee fetched -->" + employeeCheck.prettyPrint());
+		ExtendLogger.info("employee fetched -->" );
+		ExtendLogger.logResponse(employeeCheck.prettyPrint());
 		assertThat(employeeCheck.getStatusCode()).isIn(200,201)
 				.as("update employee not came as expected after fetching");
 		assertThat(((List<String>) employeeCheck.jsonPath().get("name")).get(0))
@@ -85,7 +87,8 @@ public class PatchTest extends BaseTests {
 		
 		Response employeeCheck=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId).get("/employees");
 		String updatedJob1=((List<String>)employeeCheck.jsonPath().get("job")).get(0);
-		ExtendLogger.info("employee check --> "+employeeCheck.prettyPrint());
+		ExtendLogger.info("employee check --> ");
+		ExtendLogger.logResponse(employeeCheck.prettyPrint());
 		assertThat(updatedJob1).isEqualTo(updatedJob).as("job is not updated");
 		assertThat(updatedJob1).isNotEqualTo(currentJob);
 	

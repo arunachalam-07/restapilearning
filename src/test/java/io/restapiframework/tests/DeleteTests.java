@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.Test;
 
+import annotations.FrameworkAnnotations;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.response.Response;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DeleteTests extends BaseTests {
 	
+	@FrameworkAnnotations
 	@Test
 	public void deleteEmployeebyId()
 	{

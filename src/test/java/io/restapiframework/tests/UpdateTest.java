@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
+import annotations.FrameworkAnnotations;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.http.ContentType;
@@ -20,6 +21,7 @@ import util.FakerUtil;
 
 public class UpdateTest extends BaseTests {
 
+	@FrameworkAnnotations
 	@Test
 	public void updateEmployee() {
 		ExtendLogger.info("inside update employee method");

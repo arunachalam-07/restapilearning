@@ -5,6 +5,7 @@ import java.util.List;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+import annotations.FrameworkAnnotations;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import extentreport.ExtentReportConfig;
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PostTest extends BaseTests {
 
+	@FrameworkAnnotations
 	@Test
 	public void createEmployee(ITestContext context)
 	{

@@ -6,10 +6,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+import annotations.FrameworkAnnotations;
 import apiutil.ApiBuilderUtil;
 import constants.FrameworkConstantSingleton;
 import extentreport.ExtendLogger;
@@ -18,22 +21,40 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import jdk.internal.org.jline.utils.Log;
 
 public class GetTests extends BaseTests {
 
+	@FrameworkAnnotations(author = { "cougar" })
+	@Test
 	public void getEmployee(ITestContext context) throws Exception {
-		Response response = ApiBuilderUtil.requestCallBuilder().queryParam("empid", 31).get("/employees");
-		response.prettyPrint();
+		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");
+		List<Map<String, Object>> responseListmap = response.jsonPath().get("$");
 		response.then().body(JsonSchemaValidator
 				.matchesJsonSchema(new FileInputStream(FrameworkConstantSingleton.getJsonSchemaPath())));
 		ExtendLogger.logResponse(response.prettyPrint());
-		System.out.println(((List<String>) response.jsonPath().get("$")).size());
-		if (((List<String>) response.jsonPath().get("$")).size() == 0) {
-			throw new Exception("emp id is not present");
+		
+		int randomNumber=ThreadLocalRandom.current().nextInt(0, responseListmap.size());
+		int targetEmpid=(int)(responseListmap.get(randomNumber).get("empid"));
+		
+		ExtendLogger.info("target employee --> "+targetEmpid);
+		
+		Response response1=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmpid).get("/employees");
+		
+		if(((List<Object>)response1.jsonPath().get("$")).size()==0)
+		{
+			throw new Exception(targetEmpid+" "+"employee id is not found");
 		}
+		else
+		{
+		ExtendLogger.info("employee found");
+		ExtendLogger.logResponse(response1.prettyPrint());
+		}
+		
 
 	}
 
+	@FrameworkAnnotations
 	@Test
 	public void getEmployees(ITestContext context) throws FileNotFoundException {
 		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");

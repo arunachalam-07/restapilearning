@@ -9,6 +9,7 @@ import org.testng.ISuiteListener;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import annotations.FrameworkAnnotations;
 import extentreport.ExtendLogger;
 
 public class TestListener implements ITestListener , ISuiteListener {
@@ -18,7 +19,7 @@ public class TestListener implements ITestListener , ISuiteListener {
 		ISuiteListener.super.onStart(suite);
 		setupReport();
 	}
-
+	
 
 	@Override
 	public void onFinish(ISuite suite) {
@@ -34,6 +35,12 @@ public class TestListener implements ITestListener , ISuiteListener {
 		ITestListener.super.onTestStart(result);
 		
 		createTest(result.getMethod().getMethodName());
+		
+		String[] authors=result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotations.class).author();
+		ExtendLogger.addAuthor(authors);
+		
+		String[] categories=result.getMethod().getConstructorOrMethod().getMethod().getAnnotation(FrameworkAnnotations.class).category();
+		ExtendLogger.addCategory(categories);
 	}
 
 

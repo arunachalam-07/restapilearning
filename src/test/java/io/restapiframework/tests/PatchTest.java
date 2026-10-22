@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import com.github.javafaker.Faker;
 
+import annotations.FrameworkAnnotations;
 import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.http.ContentType;
@@ -20,6 +21,7 @@ import util.FakerUtil;
 
 public class PatchTest extends BaseTests {
 
+	@FrameworkAnnotations
 	@Test
 	public void patchEmployeename() {
 		
@@ -65,6 +67,7 @@ public class PatchTest extends BaseTests {
 				.isEqualToIgnoringCase(targetUpdatedname);
 	}
 
+	@FrameworkAnnotations
 	@Test
 	public void patchEmployeeJob() {
 		

@@ -25,6 +25,21 @@ public class ExtendLogger {
 		ExtentReportManager.getTest().info(MarkupHelper.createCodeBlock(message,CodeLanguage.JSON));
 	}
 	
+	public static void addAuthor(String[] authors)
+	{
+		for(String author:authors)
+		{
+			ExtentReportManager.getTest().assignAuthor(author);
+		}
+	}
+	
+	public static void addCategory(String[] categories)
+	{
+		for(String category:categories)
+		{
+			ExtentReportManager.getTest().assignCategory(category);
+		}
+	}
 
 
 }

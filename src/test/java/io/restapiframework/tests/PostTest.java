@@ -11,6 +11,7 @@ import extentreport.ExtendLogger;
 import extentreport.ExtentReportConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import pojo.EmployeePojo;
 import util.FakerUtil;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +25,12 @@ public class PostTest extends BaseTests {
 		EmployeePojo employeePojo=EmployeePojo.builder().setEmpid(FakerUtil.getEmpid()).setJob(FakerUtil.getJob()).setName(FakerUtil.getName()).build();
 		System.out.println(employeePojo);
 		ExtendLogger.info("pojo object created "+employeePojo.toString());
-		Response response=ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employeePojo).post("/employees");
+		RequestSpecification requestSpecification= ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employeePojo);
+		ExtendLogger.info("header info");
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		ExtendLogger.info("after header info");
+		Response response=requestSpecification.post("/employees");
+//				ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employeePojo).post("/employees");
 		ExtendLogger.logResponse(response.prettyPrint());
 		
 		Response response1=ApiBuilderUtil.requestCallBuilder().get("/employees");
@@ -33,7 +39,7 @@ public class PostTest extends BaseTests {
 		
 		int previousSize= Integer.valueOf(context.getAttribute("initialSize").toString());
 		ExtendLogger.info("current size is "+currentSize);
-		ExtendLogger.info("response for addition of new employee "+response1.prettyPrint());
+		ExtendLogger.logResponse(response1.prettyPrint());
 		
 		assertThat(currentSize).isGreaterThan(previousSize);
 		

@@ -21,6 +21,7 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 import jdk.internal.org.jline.utils.Log;
 
 public class GetTests extends BaseTests {
@@ -28,7 +29,12 @@ public class GetTests extends BaseTests {
 	@FrameworkAnnotations(author = { "cougar" })
 	@Test
 	public void getEmployee(ITestContext context) throws Exception {
-		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");
+		
+		
+		RequestSpecification requestSpecification= ApiBuilderUtil.requestCallBuilder();
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response response = requestSpecification.get("/employees");
+		
 		List<Map<String, Object>> responseListmap = response.jsonPath().get("$");
 		response.then().body(JsonSchemaValidator
 				.matchesJsonSchema(new FileInputStream(FrameworkConstantSingleton.getJsonSchemaPath())));
@@ -39,7 +45,10 @@ public class GetTests extends BaseTests {
 		
 		ExtendLogger.info("target employee --> "+targetEmpid);
 		
-		Response response1=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmpid).get("/employees");
+		requestSpecification= ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmpid);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		
+		Response response1=requestSpecification.get("/employees");
 		
 		if(((List<Object>)response1.jsonPath().get("$")).size()==0)
 		{
@@ -57,7 +66,9 @@ public class GetTests extends BaseTests {
 	@FrameworkAnnotations
 	@Test
 	public void getEmployees(ITestContext context) throws FileNotFoundException {
-		Response response = ApiBuilderUtil.requestCallBuilder().get("/employees");
+		RequestSpecification requestSpecification= ApiBuilderUtil.requestCallBuilder();
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response response = requestSpecification.get("/employees");
 //		response.prettyPrint();
 		ValidatableResponse schemaResponse = response.then().body(JsonSchemaValidator
 				.matchesJsonSchema(new FileInputStream(FrameworkConstantSingleton.getJsonSchemaPath())));

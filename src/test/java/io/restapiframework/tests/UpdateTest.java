@@ -16,6 +16,7 @@ import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import pojo.EmployeePojo;
 import util.FakerUtil;
 
@@ -33,25 +34,29 @@ public class UpdateTest extends BaseTests {
 		int randomInt = ThreadLocalRandom.current().nextInt(0, responseList.size());
 		Map<String, Object> randomEmployee = responseList.get(randomInt);
 		String targetId = String.valueOf(randomEmployee.get("id"));
-		int empId=Integer.valueOf(String.valueOf(randomEmployee.get("empid")));
+		int empId = Integer.valueOf(String.valueOf(randomEmployee.get("empid")));
 //		System.out.println("target id " + targetId);
 //		System.out.println("before job update " + randomEmployee);
 		ExtendLogger.info("target id " + targetId);
 		ExtendLogger.info("before job update " + randomEmployee);
-		String targetJob=FakerUtil.getJob();
-		EmployeePojo employee = EmployeePojo.builder().setJob(targetJob)
-				.setEmpid(empId).setName((String) randomEmployee.get("name")).build();
+		String targetJob = FakerUtil.getJob();
+		EmployeePojo employee = EmployeePojo.builder().setJob(targetJob).setEmpid(empId)
+				.setName((String) randomEmployee.get("name")).build();
 //		System.out.println(employee);
-		ExtendLogger.info("employee updated "+employee);
-		Response updateRequest = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON)
-				.pathParam("id", targetId).body(employee).put("/employees/{id}");
-		
-		assertThat(updateRequest.getStatusCode()).isIn(200,201);
-		
-		Response requestAfterUpdate=ApiBuilderUtil.requestCallBuilder().queryParam("id", targetId).get("/employees");
-		String newJob=requestAfterUpdate.jsonPath().get("[0].job");
+		ExtendLogger.info("employee updated " + employee);
+		RequestSpecification requestSpecification = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON)
+				.pathParam("id", targetId).body(employee);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response updateRequest = requestSpecification.put("/employees/{id}");
+
+		assertThat(updateRequest.getStatusCode()).isIn(200, 201);
+
+		requestSpecification = ApiBuilderUtil.requestCallBuilder().queryParam("id", targetId);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response requestAfterUpdate = requestSpecification.get("/employees");
+		String newJob = requestAfterUpdate.jsonPath().get("[0].job");
 		assertThat(newJob).isEqualTo(targetJob);
- 
+
 		ExtendLogger.logResponse(updateRequest.prettyPrint());
 
 	}

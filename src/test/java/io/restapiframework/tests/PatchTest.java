@@ -16,6 +16,7 @@ import apiutil.ApiBuilderUtil;
 import extentreport.ExtendLogger;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import pojo.EmployeePojo;
 import util.FakerUtil;
 
@@ -46,9 +47,10 @@ public class PatchTest extends BaseTests {
 		ExtendLogger.info("target employee updated --> " + employee);
 
 		// updating employee
-
-		Response updateEmployee = ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employee)
-				.pathParam("id", targetId).patch("/employees/{id}");
+		RequestSpecification requestSpecification= ApiBuilderUtil.requestCallBuilder().contentType(ContentType.JSON).body(employee)
+		.pathParam("id", targetId);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response updateEmployee = requestSpecification.patch("/employees/{id}");
 //		System.out.println("updated employee response --> " + updateEmployee.prettyPrint());
 		ExtendLogger.info("updated employee response below");
 		ExtendLogger.logResponse( updateEmployee.prettyPrint());
@@ -56,7 +58,9 @@ public class PatchTest extends BaseTests {
 				.as("expected status code didnt come for patch ");
 
 		// validating after update
-		Response employeeCheck = ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId)
+		requestSpecification=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response employeeCheck = requestSpecification
 				.get("/employees");
 //		System.out.println("employee fetched -->" + employeeCheck);
 		ExtendLogger.info("employee fetched -->" );
@@ -85,10 +89,14 @@ public class PatchTest extends BaseTests {
 		String updatedJob=FakerUtil.getJob();
 		EmployeePojo employee=EmployeePojo.builder().setJob(updatedJob).build();
 		
-		Response updateResponse=ApiBuilderUtil.requestCallBuilder().pathParam("id", id).contentType(ContentType.JSON).body(employee).patch("/employees/{id}");
+		RequestSpecification requestSpecification= ApiBuilderUtil.requestCallBuilder().pathParam("id", id).contentType(ContentType.JSON).body(employee);
+		Response updateResponse=requestSpecification.patch("/employees/{id}");
 		updateResponse.prettyPrint();
 		
-		Response employeeCheck=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId).get("/employees");
+		
+		requestSpecification=ApiBuilderUtil.requestCallBuilder().queryParam("empid", targetEmployeeId);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		Response employeeCheck=requestSpecification.get("/employees");
 		String updatedJob1=((List<String>)employeeCheck.jsonPath().get("job")).get(0);
 		ExtendLogger.info("employee check --> ");
 		ExtendLogger.logResponse(employeeCheck.prettyPrint());

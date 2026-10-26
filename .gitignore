@@ -13,3 +13,6 @@
 *.log
 *.html
 response.txt
+
+# property file
+config.properties

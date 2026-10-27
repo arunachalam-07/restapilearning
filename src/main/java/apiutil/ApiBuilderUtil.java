@@ -13,5 +13,10 @@ public class ApiBuilderUtil {
 	{
 		return given().baseUri(PropertyUtilReader.getValue(Enums.BASEURL)).log().all();
 	}
+	
+	public static RequestSpecification customURLRequestCallBuilder(Enum key)
+	{
+		return given().baseUri(PropertyUtilReader.getValue(key)).log().all();
+	}
 
 }

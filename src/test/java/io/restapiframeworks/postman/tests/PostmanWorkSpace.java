@@ -125,5 +125,40 @@ public class PostmanWorkSpace extends BaseTests {
 		.as("workspace description is not correct").isEqualTo(jsonPath.getString("workspace.description"));
 
 	}
+	
+	@FrameworkAnnotations
+	@Test(priority = 5, dependsOnMethods = "updateWorkSpaceDetails")
+	
+	public void deleteWorkspace(ITestContext context)
+	{
+		String currentWorkSpaceId=String.valueOf(context.getAttribute("currentWorkSpaceId"));
+		
+		ExtendLogger.info("details of workspace going to be deleted");
+		
+		RequestSpecification requestSpecification=ApiBuilderUtil.customURLRequestCallBuilder(Enums.POSTMAN_BASE_URI)
+				.header("Authorization", "Bearer " + PropertyUtilReader.getValue(Enums.POSTMAN_API_BEARER_TOKEN))
+				.accept(ContentType.JSON).pathParam("workspace", currentWorkSpaceId);
+		ExtendLogger.logHeaderresponse(requestSpecification);
+		
+		Response response=requestSpecification.get("/workspaces/{workspace}");
+		assertThat(response.getStatusCode()).as("Expected status not returned").isIn(200,201);
+		ExtendLogger.logResponse(response.asPrettyString());
+		
+		ExtendLogger.info("deleting workspace");
+		
+		response=requestSpecification.delete(("/workspaces/{workspace}"));
+		assertThat(response.getStatusCode()).as("not deleted successfully").isIn(200,201);
+		assertThat(response.jsonPath().getString("workspace.id")).as("incorrect workspace id").isEqualTo(currentWorkSpaceId);
+		ExtendLogger.logResponse(response.asPrettyString());
+		
+		
+		ExtendLogger.info("validating deleted workspace via get");
+		response=requestSpecification.get("/workspaces/{workspace}");
+		assertThat(response.getStatusCode()).as("issue in workspace").isIn(404);
+		ExtendLogger.logResponse(response.asPrettyString());
+		
+		
+		
+	}
 
 }

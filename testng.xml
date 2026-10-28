@@ -19,6 +19,7 @@
 	<test name="Authencation Tests">
 		<classes>
 			<class name="io.restapiframeworks.postman.tests.AuthTest" />
+			<class name="io.restapiframeworks.postman.tests.PostmanWorkSpace" />
 		</classes>
 
 	</test>

@@ -4,7 +4,8 @@
 	<listeners>
 		<listener class-name="io.restapiframework.listeners.TestListener" />
 	</listeners>
-<!--	<test thread-count="5" name="CRUD Operation Tests" preserve-order="true">
+	<!--	<test thread-count="5" name="CRUD Operation Tests"
+	preserve-order="true">
 		<classes>
 			<class name="io.restapiframework.tests.GetTests" />
 			<class name="io.restapiframework.tests.PostTest" />
@@ -16,12 +17,19 @@
 
 	</test> 
 -->
-	<test name="Authencation Tests">
+	<test name="Postman Tests">
 		<classes>
 			<class name="io.restapiframeworks.postman.tests.AuthTest" />
 			<class name="io.restapiframeworks.postman.tests.PostmanWorkSpace" />
 		</classes>
 
 	</test>
-</suite> <!--
-Suite -->
+
+	<test name="GitHub Tests">
+		<classes>
+			<class name="io.restapiframeworks.github.tests.GithubRepoCRUDTests" />
+		</classes>
+
+	</test>
+
+</suite>

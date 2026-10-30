@@ -1,5 +1,8 @@
 package extentreport;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.aventstack.extentreports.markuputils.CodeLanguage;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 
@@ -64,6 +67,35 @@ public class ExtendLogger {
 			{
 				info("header details not present");
 			}
+			
+			if(!query.getQueryParams().isEmpty() )
+			{
+				info("Query parameter details");
+				
+				for(Map.Entry<String, String> map: query.getQueryParams().entrySet())
+				{
+					info(map.getKey()+":"+map.getValue());
+				}
+			}
+			else
+			{
+				info("query parameter details not present");
+			}
+			
+			if(!query.getPathParams().isEmpty() )
+			{
+				info("Path Parameter details");
+				
+				for(Map.Entry<String, String> map:query.getPathParams().entrySet())
+				{
+					info(map.getKey()+":"+map.getValue());
+				}
+			}
+			else
+			{
+				info("Path parameter details not present");
+			}
+			
 			
 			if(query.getBody()!=null )
 			{
